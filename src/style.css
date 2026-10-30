@@ -1,0 +1,72 @@
+:root { color-scheme: light; font-family: 'Segoe UI','Microsoft YaHei',sans-serif; }
+* { box-sizing: border-box; }
+html,body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: transparent; user-select: none; }
+.definitions { position: absolute; pointer-events: none; }
+button { -webkit-app-region: no-drag; font: inherit; }
+.pet { width: 100vw; height: 100vh; position: relative; isolation: isolate; }
+.character { position: absolute; z-index: 1; left: 0; top: 2%; width: 76%; aspect-ratio: 1274 / 1234; pointer-events: none; }
+.character-art { display: block; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.drag-handle { position: absolute; left: 0; top: 0; width: 100%; height: 72%; -webkit-app-region: drag; pointer-events: auto; }
+.blink-art { position: absolute; inset: 0; background: url('../assets/pet-blink.png') center / 100% 100% no-repeat; opacity: 0; pointer-events: none; clip-path: url('#blink-eyes'); }
+.pet.blinking .blink-art { opacity: 1; }
+.keyboard { position: absolute; z-index: 2; left: 4%; top: 53.5%; width: 72%; height: 20.5%; padding: 0; border: 0; background: none; cursor: pointer; outline: none; }
+.keyboard-top { position: absolute; inset: 0 0 7%; border: max(1px,.65vw) solid #17223d; border-radius: 2vw; background: #a6e1d9; box-shadow: inset 0 .7vw 0 #e4f6ed, inset 0 -.6vw 0 #70bfb5; }
+.keyboard-lip { position: absolute; bottom: 0; left: .5%; right: .5%; height: 19%; z-index: -1; border: max(1px,.65vw) solid #17223d; border-top: 0; border-radius: 0 0 2vw 2vw; background: #579f9d; }
+.brand { position: absolute; top: 1%; left: 3%; font-size: 1.2vw; letter-spacing: .2vw; color: #29545d; font-weight: 800; }
+.brand i { display: inline-block; background: #eff8ae; width: .8vw; height: .8vw; border-radius: 50%; margin-left: .4vw; }
+.keys { position: absolute; left: 2.5%; right: 2.5%; top: 14%; height: 79%; }
+.keycap { position: absolute; display: flex; align-items: center; justify-content: center; padding: 0; border: .2vw solid #4e8386; border-radius: .3vw; background: #e9f5ed; color: #365f67; font: 700 1.18vw/1 'Consolas',monospace; box-shadow: 0 .2vw 0 #588d8d; transition: background-color 70ms, box-shadow 70ms, translate 70ms; white-space: nowrap; }
+.keycap[data-code^="F"],.keycap[data-code^="Numpad"] { background: #d7eee3; }
+.keycap.lit { background: #e0f6a0 !important; color: #244e50; box-shadow: 0 0 1.8vw #ecff94; translate: 0 .25vw; }
+.counter-card { position: absolute; z-index: 5; right: .5%; top: 52%; width: 23%; height: 18%; padding: 3.3vw 1.2vw 1vw; border: .65vw solid #17223d; border-radius: 2vw; background: #e9f5cf; box-shadow: inset 0 .6vw 0 #f4fbe4, 0 .7vw 0 #78aaa2; color: #234d50; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: .4vw; }
+.counter-label { position: absolute; top: .6vw; left: 0; right: 0; font-size: 1.7vw; font-weight: 800; letter-spacing: .2vw; text-align: center; opacity: .7; }
+#count { font: 800 6.5vw/1 'Consolas','Courier New',monospace; font-variant-numeric: tabular-nums; }
+.counter-unit { font-size: 2.2vw; align-self: flex-end; margin-bottom: .4vw; }
+.keyboard:focus-visible .keyboard-top,.counter-card:focus-visible { outline: .6vw solid #eaff9f; outline-offset: .4vw; }
+.keyboard:disabled,.counter-card:disabled { cursor: wait; }
+.status { position: absolute; z-index: 6; bottom: 8%; left: 5%; right: 5%; text-align: center; color: #244e50; font-size: 4.6vw; font-weight: 600; background: #e4f4e4f2; border-radius: 2vw; }
+.status:empty { display: none; }
+.status.error { color: #8a3d35; background: #fff1dff4; }
+.notice { position: absolute; z-index: 8; bottom: 29%; left: 3%; width: 94%; padding: 3vw; font-size: 5.2vw; line-height: 1.45; color: #213f48; border: .7vw solid #527b80; background: #f0f8e9fa; border-radius: 3vw; cursor: pointer; }
+.notice[hidden] { display: none; }
+.breathing-layer { animation: breathe 4.5s ease-in-out infinite; animation-play-state: paused; }
+.pet.idle .breathing-layer { animation-play-state: running; }
+@keyframes breathe { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-2.4vw); } }
+@media (prefers-reduced-motion: reduce) { .keycap { transition: none; } .breathing-layer,.drool-layer.dropping .droplet,.pet.drooling .drool-strand { animation: none !important; } }
+
+.arm-layer { position:absolute; z-index:3; left:0; top:2%; width:76%; aspect-ratio:1274 / 1234; pointer-events:none; }
+.arm-art { display:block; width:100%; height:100%; overflow:visible; pointer-events:none; }
+
+.shoulder-layer { position:absolute; z-index:4; left:0; top:2%; width:76%; aspect-ratio:1274 / 1234; pointer-events:none; }
+.shoulder-layer svg { display:block; width:100%; height:100%; overflow:visible; }
+
+/* Space bar and legends face the character, with a shallow desktop perspective. */
+.keyboard { transform: perspective(110vw) rotateX(22deg) rotateZ(180deg); transform-origin: 50% 50%; }
+.arm-outline { fill:none; stroke:#11183d; stroke-width:11; stroke-linecap:round; stroke-linejoin:round; pointer-events:none; }
+
+/* Align the typing block, rather than the number pad, between the shoulders. */
+.character,.arm-layer,.shoulder-layer,.drool-layer { left:11.6%; }
+
+/* Same stacking level as the keyboard, later in DOM; arms stay in front. */
+.drool-layer { position:absolute; z-index:2; top:2%; width:76%; aspect-ratio:1274 / 1234; pointer-events:none; }
+.drool-layer svg { display:block; width:100%; height:100%; overflow:visible; pointer-events:none; }
+.drool-strand,.droplet { opacity:0; }
+.pet.drooling #drool-body-cut,.pet.drooling #drool-backing { opacity:1; }
+.pet.drooling .drool-strand { opacity:1; }
+.pet.drooling .drool-strand { animation:drool-stretch 2.2s ease-in-out both; }
+.drool-layer.dropping .droplet { animation:droplet-fall 2.2s linear both; }
+@keyframes drool-stretch {
+  0% { transform:scale(1,1); }
+  35% { transform:scale(.85,1.85); }
+  48% { transform:scale(.7,2.05); }
+  54%,70% { transform:scale(.95,.78); }
+  100% { transform:scale(1,1); }
+}
+@keyframes droplet-fall {
+  0%,48% { opacity:0; transform:translateY(0) scale(.8); }
+  51% { opacity:1; transform:translateY(0) scale(1.6); }
+  65% { opacity:1; transform:translateY(40px) scale(1.4); }
+  85% { opacity:.7; transform:translateY(105px) scale(1.2); }
+  100% { opacity:0; transform:translateY(160px) scale(1); }
+}
+

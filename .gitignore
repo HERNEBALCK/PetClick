@@ -1,0 +1,10 @@
+node_modules/
+release/
+test-output/
+*.log
+native/bin/
+backups/
+.env
+.env.*
+!.env.example
+*.tmp

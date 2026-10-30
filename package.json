@@ -1,0 +1,53 @@
+{
+  "name": "petclick",
+  "productName": "PetClick",
+  "version": "1.5.3",
+  "private": true,
+  "description": "离线拍键盘点击计数桌宠",
+  "main": "src/main.js",
+  "author": "PetClick",
+  "license": "UNLICENSED",
+  "scripts": {
+    "prestart": "node scripts/build-native.js",
+    "start": "electron .",
+    "test": "node --test test/*.test.js",
+    "check": "node --check src/main.js && node --check src/preload.js && node --check src/renderer.js && node --check src/store.js",
+    "pack": "node scripts/build-native.js && electron-builder --win --x64 --dir",
+    "dist": "node scripts/build-native.js && electron-builder --win portable --x64",
+    "dist:packed": "electron-builder --prepackaged release/win-unpacked --win portable --x64"
+  },
+  "devDependencies": {
+    "electron": "^43.0.0",
+    "electron-builder": "^26.0.12",
+    "playwright-core": "^1.58.0"
+  },
+  "build": {
+    "appId": "local.petclick.desktop",
+    "productName": "PetClick",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "src/**/*",
+      "assets/**/*",
+      "package.json"
+    ],
+    "asar": true,
+    "extraResources": [
+      {
+        "from": "native/bin/PetClick.Keyboard.exe",
+        "to": "native/PetClick.Keyboard.exe"
+      }
+    ],
+    "win": {
+      "target": [
+        "portable"
+      ],
+      "icon": "assets/app-icon.ico",
+      "signExecutable": false
+    },
+    "portable": {
+      "artifactName": "PetClick-${version}-win-x64.exe"
+    }
+  }
+}

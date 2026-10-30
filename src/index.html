@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'">
+  <title>PetClick</title><link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <svg class="definitions" width="0" height="0" aria-hidden="true"><defs><clipPath id="blink-eyes" clipPathUnits="objectBoundingBox"><path d="M .205 .51 L .285 .46 L .38 .46 L .445 .53 L .465 .61 L .43 .71 L .34 .735 L .24 .72 L .20 .64 Z M .47 .39 L .55 .39 L .685 .455 L .70 .54 L .665 .625 L .57 .65 L .475 .62 L .455 .50 Z"/></clipPath></defs></svg>
+  <main class="pet" id="pet" aria-label="PetClick 拍键盘桌宠">
+    <div class="character breathing-layer" title="拖动头部移动 · 右键打开菜单">
+      <svg class="character-art" viewBox="0 0 1274 1234" role="img" aria-label="原画 Miku 桌宠">
+        <defs>
+          <path id="drool-shape" d="M 605 764 Q 625 764 634 791 Q 642 816 646 841 Q 649 857 647 871 Q 646 879 638 882 Q 626 885 618 873 Q 610 859 607 840 Q 603 825 602 813 Q 600 802 603 795 Q 605 789 610 791 L 607 780 L 605 775 Z"/>
+          <path id="drool-hole-shape" d="M 604 761 Q 625 758 636 782 Q 643 807 649 844 Q 659 878 641 896 Q 621 899 610 876 Q 600 853 599 824 Q 592 794 597 778 Z"/>
+          <clipPath id="drool-hole-clip"><use href="#drool-hole-shape"/></clipPath>
+          <clipPath id="drool-clip"><use href="#drool-shape"/></clipPath>
+          <!-- Complete shoulder-to-cuff regions, in the source PNG coordinate system. -->
+          <path id="left-arm-shape" d="M 533 870 L 544 881 Q 539 929 554 962 L 568 982 Q 594 1009 602 1042 Q 610 1090 606 1153 Q 610 1170 587 1179 Q 551 1197 511 1194 Q 464 1191 439 1168 L 433 1158 Q 430 1113 446 1067 Q 452 1040 461 1018 L 461 995 L 461 967 Q 480 919 511 893 Z"/>
+          <path id="right-arm-shape" d="M 812 824 Q 834 821 850 833 Q 891 854 906 900 L 919 946 Q 930 987 927 1040 L 913 1100 L 898 1132 L 883 1150 L 855 1166 L 829 1175 Q 792 1191 768 1183 Q 736 1177 727 1166 L 718 1148 L 729 1107 L 741 1068 Q 757 1023 758 983 Q 750 973 756 958 L 765 929 L 775 889 Q 792 860 800 841 Z"/>
+          <clipPath id="sleeve-repair-clip"><path d="M 583 1023 Q 579 1050 579 1068 Q 580 1080 588 1091 L 588 1125 L 603 1155 L 614 1149 L 614 1032 Z"/></clipPath>
+          <mask id="left-arm-texture" maskUnits="userSpaceOnUse" x="0" y="0" width="1274" height="1234"><rect width="1274" height="1234" fill="black"/><use href="#left-arm-shape" fill="white" stroke="black" stroke-width="32" stroke-linejoin="round"/></mask>
+          <mask id="right-arm-texture" maskUnits="userSpaceOnUse" x="0" y="0" width="1274" height="1234"><rect width="1274" height="1234" fill="black"/><use href="#right-arm-shape" fill="white" stroke="black" stroke-width="32" stroke-linejoin="round"/></mask>
+          <clipPath id="left-arm-clip"><use href="#left-arm-shape"/></clipPath>
+          <clipPath id="right-arm-clip"><use href="#right-arm-shape"/></clipPath>
+          <clipPath id="arm-holes"><use href="#left-arm-shape"/><use href="#right-arm-shape"/></clipPath>
+          <mask id="body-without-arms" maskUnits="userSpaceOnUse" x="0" y="0" width="1274" height="1234">
+            <rect width="1274" height="1234" fill="white"/>
+            <use id="drool-body-cut" href="#drool-hole-shape" fill="black" opacity="0"/>
+            <use id="left-body-cut" href="#left-arm-shape" fill="black" opacity="0"/><use id="right-body-cut" href="#right-arm-shape" fill="black" opacity="0"/>
+          </mask>
+          <!-- Original face/hair covers the shoulder roots, just as in the drawing. -->
+          <clipPath id="shoulder-occlusion"><path d="M 491 865 L 571 843 L 571 880 L 535 890 L 491 902 Z M 773 783 L 860 767 L 860 815 L 833 812 L 800 819 L 773 832 Z"/></clipPath>
+        </defs>
+        <image id="left-backing" href="../assets/pet-backing-v14.png" width="1274" height="1234" preserveAspectRatio="none" clip-path="url(#left-arm-clip)" opacity="0"/>
+        <image id="right-backing" href="../assets/pet-backing-v14.png" width="1274" height="1234" preserveAspectRatio="none" clip-path="url(#right-arm-clip)" opacity="0"/>
+        <image id="drool-backing" href="../assets/drool-backing-v153.png" width="1274" height="1234" preserveAspectRatio="none" clip-path="url(#drool-hole-clip)" opacity="0"/>
+        <image class="original-body" href="../assets/pet.png" width="1274" height="1234" mask="url(#body-without-arms)"/>
+      </svg>
+      <div class="blink-art" id="blink" aria-hidden="true"></div><div class="drag-handle" title="拖动头部移动"></div>
+    </div>
+    <button class="keyboard" id="keyboard" type="button" aria-label="点击小键盘，计数加一" disabled>
+      <span class="keyboard-top"><span class="brand" aria-hidden="true">MIKU <i></i></span><span class="keys" id="keys" aria-hidden="true"></span></span>
+      <span class="keyboard-lip" aria-hidden="true"></span>
+    </button>
+    <div class="drool-layer breathing-layer" id="drool-layer" aria-hidden="true"><svg viewBox="0 0 1274 1234">
+      <g transform="translate(629 1000)"><g class="droplet" id="droplet">
+        <path d="M 0 0 C -3 7 -10 13 -10 19 C -10 31 10 31 10 19 C 10 13 3 7 0 0 Z" fill="#bfeef2" stroke="#7f8fa7" stroke-width="4" stroke-linejoin="round"/>
+        <ellipse cx="-3" cy="18" rx="2" ry="5" fill="#f2ffff"/>
+      </g></g>
+    </svg></div>
+    <div class="arm-layer breathing-layer" aria-hidden="true"><svg class="arm-art" viewBox="0 0 1274 1234">
+        <g id="left-arm" data-source="original-complete-arm"><use href="#left-arm-shape" fill="#11183d"/><g mask="url(#left-arm-texture)"><image href="../assets/pet.png" width="1274" height="1234"/><g clip-path="url(#sleeve-repair-clip)"><image href="../assets/pet.png" x="65" width="1274" height="1234"/></g></g><use class="arm-outline" href="#left-arm-shape"/></g>
+        <g id="right-arm" data-source="original-complete-arm"><use href="#right-arm-shape" fill="#11183d"/><g mask="url(#right-arm-texture)"><image href="../assets/pet.png" width="1274" height="1234"/></g><use class="arm-outline" href="#right-arm-shape"/></g>
+    </svg></div>
+    <div class="shoulder-layer breathing-layer" aria-hidden="true"><svg viewBox="0 0 1274 1234"><image href="../assets/pet.png" width="1274" height="1234" clip-path="url(#shoulder-occlusion)"/>      <g transform="translate(605 764)"><g class="drool-strand" id="drool-strand"><g transform="translate(-605 -764)"><image href="../assets/pet.png" width="1274" height="1234" clip-path="url(#drool-clip)"/><use href="#drool-shape" fill="none" stroke="#74869f" stroke-width="3" stroke-linejoin="round"/></g></g></g></svg></div>
+    <button class="counter-card" id="counter-board" type="button" aria-label="点击计数牌，计数加一" disabled>
+      <span class="counter-label">CLICKS</span><output id="count" aria-live="off">0</output><span class="counter-unit">次</span>
+    </button>
+    <div class="status" id="status" role="status"></div>
+    <button class="notice" id="notice" type="button" hidden title="点击收起提示"></button>
+  </main>
+  <script src="keyboard-layout.js"></script><script src="arm-motion.js"></script><script src="renderer.js"></script>
+</body></html>
